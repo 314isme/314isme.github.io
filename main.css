@@ -1,0 +1,111 @@
+html,
+*,
+:after {
+	font-family: "Noto Sans JP", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	box-sizing: border-box;
+	word-spacing: 1px;
+	margin: 0;
+	-ms-text-size-adjust: 100%;
+	-webkit-text-size-adjust: 100%;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	font-size: 16px;
+}
+
+.container {
+    background-color: #ffffff;
+    margin: 0 auto;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.link {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+}
+
+.link li a {
+	text-decoration: none;
+	color: #000000;
+	cursor: default;
+}
+
+.link i {
+	font-size: 20px;
+	vertical-align: middle;
+}
+
+.link .github:hover {
+	color: #999999;
+}
+
+.link .githubs:hover {
+	color: #c96198;
+}
+
+.link .twitter:hover {
+	color: #1da1f2;
+}
+
+.link .discord:hover {
+	color: #7289da;
+}
+
+.link .twitch:hover {
+	color: #9146FF;
+}
+
+.link .kofi:hover {
+	color: #FF5E5B;
+}
+
+.link .paypal:hover {
+	color: #3f6fdc;
+}
+
+.link .patreon:hover {
+	color: #f96854;
+}
+
+.link ul {
+	padding: 0;
+	list-style-type: none;
+}
+
+.link ul li {
+	display: inline;
+}
+
+.title {
+	margin-bottom: 2em;
+}
+
+.maintitle {
+	font-weight: 500;
+	color: #000000;
+}
+
+.subtitle {
+	font-weight: 300;
+	color: #000000;
+	font-size: 14px;
+	word-spacing: 5px;
+	padding-bottom: 10px;
+}
+
+.subtitle a {
+	text-decoration: none;
+	color: #000000;
+	font-weight: 400;
+	cursor: default;
+}
+
+.subtitle a:hover {
+	color: #999999;
+}
