@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="author" content="314isme">
+<meta name="description" content="ドットと申します。 ASMとCプログラマー">
+<title>。</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+</head>
+<body>
+<div class="wrapper">
+    <div class="gameboy-container">
+        <img src="assets/background.png" class="bg" alt="">
+        <div class="gameboy-wrapper">
+            <img src="assets/gameboy.png" class="gameboy" alt="">
+            <div class="icons">
+                <a href="https://note.com/314isme" target="_blank" rel="noopener"><img src="assets/note.png" data-hover="assets/note_hover.png" class="icon" alt=""></a>
+                <a href="https://x.com/314isme" target="_blank" rel="noopener"><img src="assets/x.png" data-hover="assets/x_hover.png" class="icon" alt=""></a>
+                <a href="https://github.com/314isme" target="_blank" rel="noopener"><img src="assets/github.png" data-hover="assets/github_hover.png" class="icon" alt=""></a>
+                <a href="https://www.patreon.com/c/314isme" target="_blank" rel="noopener"><img src="assets/patreon.png" data-hover="assets/patreon_hover.png" class="icon" alt=""></a>
+                <a href="https://github.com/sponsors/314isme" target="_blank" rel="noopener"><img src="assets/github.png" data-hover="assets/github_hover.png" class="icon" alt=""></a>
+                <a href="https://www.twitch.tv/314isme" target="_blank" rel="noopener"><img src="assets/twitch.png" data-hover="assets/twitch_hover.png" class="icon" alt=""></a>
+                <a href="https://www.youtube.com/@314isme" target="_blank" rel="noopener"><img src="assets/youtube.png" data-hover="assets/youtube_hover.png" class="icon" alt=""></a>
+                <a href="https://store.steampowered.com/search/?developer=314isme" target="_blank" rel="noopener"><img src="assets/steam.png" data-hover="assets/steam_hover.png" class="icon" alt=""></a>
+                <a href="https://314isme.itch.io" target="_blank" rel="noopener"><img src="assets/itch.png" data-hover="assets/itch_hover.png" class="icon" alt=""></a>
+                <a href="https://discord.314is.me" target="_blank" rel="noopener"><img src="assets/discord.png" data-hover="assets/discord_hover.png" class="icon" alt=""></a>
+                <a href="https://314isme.newgrounds.com" target="_blank" rel="noopener"><img src="assets/ng.png" data-hover="assets/ng_hover.png" class="icon" alt=""></a>
+                <a href="mailto:314isme@gmail.com"><img src="assets/mail.png" data-hover="assets/mail_hover.png" class="icon" alt=""></a>
+            </div>
+            <img src="assets/dot.png" data-hover="assets/dot_hover.png" class="dot" alt="">
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('[data-hover]').forEach(function(el){
+    var original = el.src;
+    var hover = el.getAttribute('data-hover');
+    el.addEventListener('mouseenter', function(){ el.src = hover; });
+    el.addEventListener('mouseleave', function(){ el.src = original; });
+});
+</script>
+</body>
+</html>
