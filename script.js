@@ -242,21 +242,31 @@
 
   render();
 
-  window.addEventListener("keydown", (e) => {
-    const el = e.target;
-    const typing =
-      el instanceof HTMLElement &&
-      (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable);
-    if (typing) return;
+window.addEventListener("keydown", (e) => {
+  const el = e.target;
+  const typing =
+    el instanceof HTMLElement &&
+    (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable);
 
-    if (e.code === KONAMI[k]) {
-      k++;
-      if (k === KONAMI.length) {
-        nextMode();
-        k = 0;
-      }
-    } else {
-      k = e.code === KONAMI[0] ? 1 : 0;
+  if (!typing) {
+    const scrollKeys = new Set([
+      "ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight",
+      "Space", "PageUp", "PageDown", "Home", "End"
+    ]);
+
+    if (scrollKeys.has(e.code)) e.preventDefault();
+  } else {
+    return;
+  }
+
+  if (e.code === KONAMI[k]) {
+    k++;
+    if (k === KONAMI.length) {
+      nextMode();
+      k = 0;
     }
-  }, { passive: true });
+  } else {
+    k = e.code === KONAMI[0] ? 1 : 0;
+  }
+}, { passive: false });
 })();
