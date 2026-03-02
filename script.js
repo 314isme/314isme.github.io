@@ -220,7 +220,7 @@
     mainEl.replaceChildren(root);
   }
 
-  const MODES = ["ASM","C"];
+  const MODES = ["C","ASM"];
   let mode = 0;
   let k = 0;
 
