@@ -235,13 +235,13 @@ function cMain() {
   mainEl.replaceChildren(root);
 }
 
-  const MODES = ["ASM","C"];
+  const MODES = ["C","ASM"];
   let mode = 0;
   let idx = 0;
 
   function render() {
     document.title = `。 (${MODES[mode]})`;
-    if (MODES[mode] === "C") {
+    if (MODES[mode] === "ASM") {
       asmHeader();
       asmMain();
     } else {
