@@ -12,6 +12,7 @@
   const headerEl = document.getElementById("code-header");
   const mainEl = document.getElementById("code-main");
   const tpl = document.getElementById("links-template");
+  if (!headerEl || !mainEl || !tpl) return;
 
   function span(cls, text) {
     const s = document.createElement("span");
@@ -20,38 +21,44 @@
     return s;
   }
 
-  function line(parts, cls="") {
+  function line(parts, cls = "") {
     const p = document.createElement("p");
     if (cls) p.className = cls;
-    parts.forEach(part => {
+    for (const part of parts) {
       if (typeof part === "string") p.appendChild(document.createTextNode(part));
       else p.appendChild(part);
-    });
+    }
     return p;
   }
 
   function getLinks() {
     return Array.from(tpl.content.querySelectorAll("a")).map(a => ({
-      name: a.textContent,
+      name: a.textContent.trim(),
       anchor: a.cloneNode(true)
     }));
   }
 
-  function sym(name) {
+  function toSym(name) {
     let s = name.replace(/[^A-Za-z0-9]/g, "_");
+    if (!s) s = "link";
     if (/^\d/.test(s)) s = "_" + s;
     return "link_" + s;
   }
 
-  function asmHeader() {
+  function renderAsmHeader() {
     const root = document.createElement("div");
+
+    root.appendChild(line([span("comment","; links.inc — rodata (x86_64, nasm)")]));
+    root.appendChild(line([""]));
 
     root.appendChild(line([span("keyword","bits")," ",span("type","64")]));
     root.appendChild(line([span("keyword","default")," ",span("highlight","rel")]));
     root.appendChild(line([""]));
+
     root.appendChild(line([span("keyword","global")," ",span("highlight","links")]));
     root.appendChild(line([span("keyword","global")," ",span("highlight","LINK_COUNT")]));
     root.appendChild(line([""]));
+
     root.appendChild(line([span("keyword","section")," ",span("quote",".rodata")]));
     root.appendChild(line([""]));
 
@@ -59,23 +66,19 @@
     root.appendChild(line([span("keyword","align")," ",span("type","8")],"indent"));
 
     const links = getLinks();
-
-    links.forEach(l => {
-      root.appendChild(line([span("keyword","dq")," ",span("highlight",sym(l.name))],"indent"));
-    });
+    for (const l of links) {
+      root.appendChild(line([span("keyword","dq")," ",span("highlight",toSym(l.name))],"indent"));
+    }
 
     root.appendChild(line([span("highlight","links_end:")]));
     root.appendChild(line([""]));
 
-    links.forEach(l => {
-      root.appendChild(line([span("highlight",sym(l.name)+":")]));
+    root.appendChild(line([span("comment","; string pool")]));
+    for (const l of links) {
+      root.appendChild(line([span("highlight",toSym(l.name) + ":")]));
       l.anchor.textContent = `"${l.name}"`;
-      root.appendChild(line([
-        span("keyword","db")," ",
-        l.anchor,", ",
-        span("type","0")
-      ],"indent"));
-    });
+      root.appendChild(line([span("keyword","db")," ",l.anchor,", ",span("type","0")],"indent"));
+    }
 
     root.appendChild(line([""]));
     root.appendChild(line([
@@ -87,185 +90,173 @@
     ]));
 
     root.appendChild(line([""]));
-    root.appendChild(line([
-      span("type",">"),
-      " vim main.asm",
-      span("blink","_")
-    ],"cursor-line"));
+    root.appendChild(line([span("type",">")," vim main.asm",span("blink","_")],"cursor-line"));
 
     headerEl.replaceChildren(root);
   }
 
-  function asmMain() {
+  function renderAsmMain() {
     const root = document.createElement("div");
+
+    root.appendChild(line([span("comment","; main.asm — entry point (x86_64 linux)")]));
+    root.appendChild(line([""]));
 
     root.appendChild(line([span("keyword","bits")," ",span("type","64")]));
     root.appendChild(line([span("keyword","default")," ",span("highlight","rel")]));
     root.appendChild(line([""]));
+
     root.appendChild(line([span("keyword","global")," ",span("highlight","_start")]));
     root.appendChild(line([span("keyword","section")," ",span("quote",".text")]));
     root.appendChild(line([""]));
 
     root.appendChild(line([span("highlight","_start:")]));
+    root.appendChild(line([span("comment","; write(1, msg, msg_len)")],"indent"));
     root.appendChild(line([span("keyword","mov")," ",span("type","rax"),", ",span("type","1")],"indent"));
     root.appendChild(line([span("keyword","mov")," ",span("type","rdi"),", ",span("type","1")],"indent"));
     root.appendChild(line([span("keyword","lea")," ",span("type","rsi"),", ",span("highlight","[rel msg]")],"indent"));
     root.appendChild(line([span("keyword","mov")," ",span("type","rdx"),", ",span("highlight","msg_len")],"indent"));
     root.appendChild(line([span("keyword","syscall")],"indent"));
+
+    root.appendChild(line([""]));
+    root.appendChild(line([span("comment","; exit(0)")],"indent"));
     root.appendChild(line([span("keyword","mov")," ",span("type","rax"),", ",span("type","60")],"indent"));
     root.appendChild(line([span("keyword","xor")," ",span("type","rdi"),", ",span("type","rdi")],"indent"));
     root.appendChild(line([span("keyword","syscall")],"indent"));
-    root.appendChild(line([""]));
 
+    root.appendChild(line([""]));
     root.appendChild(line([span("keyword","section")," ",span("quote",".rodata")]));
     root.appendChild(line([span("highlight","msg:")]));
-    root.appendChild(line([
-      span("keyword","db"),
-      " ",
-      span("",'"ドットと申します。 ASMプログラマー\\n"'),
-      ", ",
-      span("type","0")
-    ],"indent"));
-    root.appendChild(line([
-      span("highlight","msg_len"),
-      " ",
-      span("keyword","equ"),
-      " ",
-      span("type","$ - msg")
-    ]));
+    root.appendChild(line([span("keyword","db")," ",span("",'"ドットと申します。 ASMプログラマー\\n"'),", ",span("type","0")],"indent"));
+    root.appendChild(line([span("highlight","msg_len")," ",span("keyword","equ")," ",span("type","$ - msg")]));
 
+    const divider = document.createElement("div");
+    divider.className = "divider";
+
+    divider.appendChild(line([span("comment","; nasm -felf64 main.asm -o main.o && ld -o main main.o")],"small"));
+
+    const mailLine = document.createElement("p");
+    mailLine.className = "comment small";
+    mailLine.append("; author: 314isme < ");
+    const a = document.createElement("a");
+    a.href = "mailto:314isme.nimbly386@passmail.net";
+    a.textContent = "314isme.nimbly386@passmail.net";
+    mailLine.appendChild(a);
+    mailLine.append(" >");
+    divider.appendChild(mailLine);
+
+    root.appendChild(divider);
     mainEl.replaceChildren(root);
   }
 
-function cHeader() {
-  const root = document.createElement("div");
+  function renderCHeader() {
+    const root = document.createElement("div");
 
-  root.appendChild(line([
-    span("keyword","#ifndef"),
-    " ",
-    span("highlight","LINKS_H")
-  ]));
+    root.appendChild(line([span("comment","/* links.h — links header */")]));
+    root.appendChild(line([""]));
 
-  root.appendChild(line([
-    span("keyword","#define"),
-    " ",
-    span("highlight","LINKS_H")
-  ]));
+    root.appendChild(line([span("keyword","#ifndef")," ",span("highlight","LINKS_H")]));
+    root.appendChild(line([span("keyword","#define")," ",span("highlight","LINKS_H")]));
+    root.appendChild(line([""]));
 
-  root.appendChild(line([""]));
+    root.appendChild(line([
+      span("keyword","static"),
+      " ",
+      span("keyword","const"),
+      " ",
+      span("type","char"),
+      " *",
+      span("highlight","links"),
+      "[] = {"
+    ]));
 
-  root.appendChild(line([
-    span("keyword","static"),
-    " ",
-    span("keyword","const"),
-    " ",
-    span("type","char"),
-    " *",
-    span("highlight","links"),
-    "[] = {"
-  ]));
+    const links = getLinks();
+    for (const l of links) {
+      l.anchor.textContent = `"${l.name}",`;
+      root.appendChild(line([l.anchor],"indent"));
+    }
 
-  const links = getLinks();
-  links.forEach(l => {
-    l.anchor.textContent = `"${l.name}",`;
-    root.appendChild(line([l.anchor],"indent"));
-  });
+    root.appendChild(line(["};"]));
+    root.appendChild(line([""]));
 
-  root.appendChild(line(["};"]));
+    root.appendChild(line([span("keyword","#define")," ",span("highlight","LINK_COUNT")," ",span("type","12")]));
+    root.appendChild(line([span("keyword","#endif")," ",span("comment","/* LINKS_H */")]));
 
-  root.appendChild(line([
-    span("keyword","#define"),
-    " ",
-    span("highlight","LINK_COUNT"),
-    " ",
-    span("type","12")
-  ]));
+    root.appendChild(line([""]));
+    root.appendChild(line([span("type",">")," vim main.c",span("blink","_")],"cursor-line"));
 
-  root.appendChild(line([
-    span("keyword","#endif")
-  ]));
+    headerEl.replaceChildren(root);
+  }
 
-  root.appendChild(line([""]));
+  function renderCMain() {
+    const root = document.createElement("div");
 
-  root.appendChild(line([
-    span("type",">"),
-    " vim main.c",
-    span("blink","_")
-  ],"cursor-line"));
+    root.appendChild(line([span("comment","/* main.c — entry point */")]));
+    root.appendChild(line([""]));
 
-  headerEl.replaceChildren(root);
-}
+    root.appendChild(line([span("keyword","#include")," ",span("quote","\"links.h\"")]));
+    root.appendChild(line([""]));
 
-function cMain() {
-  const root = document.createElement("div");
+    root.appendChild(line([span("keyword","int")," ",span("highlight","main"),"(",span("keyword","void"),") {"]));
+    root.appendChild(line([span("highlight","printf"),"(",span("",'"ドットと申します。 ASMとCプログラマー\\n"'),");"],"indent"));
+    root.appendChild(line([span("keyword","return")," ",span("type","0"),";"],"indent"));
+    root.appendChild(line(["}"]));
 
-  root.appendChild(line([
-    span("keyword","#include"),
-    " ",
-    span("quote","\"links.h\"")
-  ]));
+    const divider = document.createElement("div");
+    divider.className = "divider";
 
-  root.appendChild(line([""]));
+    divider.appendChild(line([span("comment","// compiled with gcc -Wall -Wextra -std=c99")],"small"));
 
-  root.appendChild(line([
-    span("keyword","int"),
-    " ",
-    span("highlight","main"),
-    "(",
-    span("keyword","void"),
-    ") {"
-  ]));
+    const mailLine = document.createElement("p");
+    mailLine.className = "comment small";
+    mailLine.append("// author: 314isme < ");
+    const a = document.createElement("a");
+    a.href = "mailto:314isme.nimbly386@passmail.net";
+    a.textContent = "314isme.nimbly386@passmail.net";
+    mailLine.appendChild(a);
+    mailLine.append(" >");
+    divider.appendChild(mailLine);
 
-  root.appendChild(line([
-    span("highlight","printf"),
-    "(",
-    span("",'"ドットと申します。 ASMとCプログラマー\\n"'),
-    ");"
-  ],"indent"));
+    root.appendChild(divider);
+    mainEl.replaceChildren(root);
+  }
 
-  root.appendChild(line([
-    span("keyword","return"),
-    " ",
-    span("type","0"),
-    ";"
-  ],"indent"));
-
-  root.appendChild(line(["}"]));
-
-  mainEl.replaceChildren(root);
-}
-
-  const MODES = ["C","ASM"];
+  const MODES = ["ASM","C"];
   let mode = 0;
-  let idx = 0;
+  let k = 0;
 
   function render() {
     document.title = `。 (${MODES[mode]})`;
     if (MODES[mode] === "ASM") {
-      asmHeader();
-      asmMain();
+      renderAsmHeader();
+      renderAsmMain();
     } else {
-      cHeader();
-      cMain();
+      renderCHeader();
+      renderCMain();
     }
   }
 
-  function next() {
+  function nextMode() {
     mode = (mode + 1) % MODES.length;
     render();
   }
 
   render();
 
-  window.addEventListener("keydown", e => {
-    if (e.code === KONAMI[idx]) {
-      idx++;
-      if (idx === KONAMI.length) {
-        next();
-        idx = 0;
+  window.addEventListener("keydown", (e) => {
+    const el = e.target;
+    const typing =
+      el instanceof HTMLElement &&
+      (el.tagName === "INPUT" || el.tagName === "TEXTAREA" || el.isContentEditable);
+    if (typing) return;
+
+    if (e.code === KONAMI[k]) {
+      k++;
+      if (k === KONAMI.length) {
+        nextMode();
+        k = 0;
       }
     } else {
-      idx = e.code === KONAMI[0] ? 1 : 0;
+      k = e.code === KONAMI[0] ? 1 : 0;
     }
-  });
+  }, { passive: true });
 })();
