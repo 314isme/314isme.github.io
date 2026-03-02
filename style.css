@@ -96,3 +96,82 @@ section {
 .comment a:hover {
   text-decoration: underline;
 }
+:root.gb-green body {
+  background-color: #0f380f;
+  color: #8bac0f;
+}
+
+:root.gb-green .comment,
+:root.gb-green .keyword,
+:root.gb-green .quote,
+:root.gb-green .comma {
+  color: #306230;
+}
+
+:root.gb-green .highlight {
+  color: #9bbc0f;
+}
+
+:root.gb-green .divider {
+  border-top: 1px solid #306230;
+}
+
+:root.gb-blue body {
+  background-color: #0a1f44;
+  color: #4aa3ff;
+}
+
+:root.gb-blue .comment,
+:root.gb-blue .keyword,
+:root.gb-blue .quote,
+:root.gb-blue .comma {
+  color: #1e3a6d;
+}
+
+:root.gb-blue .highlight {
+  color: #9cd6ff;
+}
+
+:root.gb-blue .divider {
+  border-top: 1px solid #1e3a6d;
+}
+
+:root.gb-red body {
+  background-color: #3a0000;
+  color: #ff4d4d;
+}
+
+:root.gb-red .comment,
+:root.gb-red .keyword,
+:root.gb-red .quote,
+:root.gb-red .comma {
+  color: #801515;
+}
+
+:root.gb-red .highlight {
+  color: #ff9999;
+}
+
+:root.gb-red .divider {
+  border-top: 1px solid #801515;
+}
+
+:root.gb-yellow body {
+  background-color: #3a3200;
+  color: #ffd800;
+}
+
+:root.gb-yellow .comment,
+:root.gb-yellow .keyword,
+:root.gb-yellow .quote,
+:root.gb-yellow .comma {
+  color: #806b00;
+}
+
+:root.gb-yellow .highlight {
+  color: #fff066;
+}
+
+:root.gb-yellow .divider {
+  border-top: 1px solid #806b00;
+}
