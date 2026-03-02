@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="author" content="314isme">
+  <meta name="description" content="ドットと申します。 ASMとCプログラマー">
+  <title>。</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header aria-label="Header file">
+  <p class="comment mb-1">/* links.h — links header */</p>
+  <p class="keyword mb-1">#ifndef <span class="highlight">LINKS_H</span></p>
+  <p class="keyword mb-2">#define <span class="highlight">LINKS_H</span></p>
+
+  <p class="mb-1">
+    <span class="keyword">static const</span>
+    <span class="type"> char</span> *links[] = {
+  </p>
+
+  <nav aria-label="links">
+    <ul class="array-items">
+      <li><a href="https://note.com/314isme" target="_blank" rel="noopener">"note",</a></li>
+      <li><a href="https://x.com/314isme" target="_blank" rel="noopener">"x",</a></li>
+      <li><a href="https://github.com/314isme" target="_blank" rel="noopener">"github",</a></li>
+      <li><a href="https://www.patreon.com/c/314isme" target="_blank" rel="noopener">"patreon",</a></li>
+      <li><a href="https://github.com/sponsors/314isme" target="_blank" rel="noopener">"github_sponsors",</a></li>
+      <li><a href="https://ko-fi.com/314isme" target="_blank" rel="noopener">"ko_fi",</a></li>
+      <li><a href="https://www.twitch.tv/314isme" target="_blank" rel="noopener">"twitch",</a></li>
+      <li><a href="https://www.youtube.com/@314isme" target="_blank" rel="noopener">"youtube",</a></li>
+      <li><a href="https://store.steampowered.com/search/?developer=314isme" target="_blank" rel="noopener">"steam",</a></li>
+      <li><a href="https://314isme.itch.io" target="_blank" rel="noopener">"itch",</a></li>
+      <li><a href="https://discord.314is.me" target="_blank" rel="noopener">"discord",</a></li>
+      <li><a href="https://314isme.newgrounds.com" target="_blank" rel="noopener">"newgrounds",</a></li>
+    </ul>
+  </nav>
+
+  <p class="mt-1 mb-2">};</p>
+
+  <p class="keyword mb-1">#define <span class="highlight">LINK_COUNT</span> <span class="type">12</span></p>
+  <p class="keyword mb-2">#endif <span class="comment">/* LINKS_H */</span></p>
+
+  <p class="cursor-line">
+    <span class="type">&gt;</span> vim main.c<span class="blink">_</span>
+  </p>
+</header>
+
+<section>
+  <p class="comment mb-2">/* main.c — entry point */</p>
+  <p class="keyword mb-2">#include <span class="quote">"links.h"</span></p>
+
+  <div>
+    <p>
+      <span class="keyword">int</span>
+      <span class="highlight"> main</span>(<span class="keyword">void</span>) {
+    </p>
+
+    <p class="indent">
+      printf(<span>"ドットと申します。 ASMとCプログラマー\n"</span>);
+    </p>
+
+    <p class="indent">
+      <span class="keyword">return</span>
+      <span class="highlight"> 0</span>;
+    </p>
+
+    <p>}</p>
+  </div>
+
+  <div class="divider">
+    <p class="comment small">// compiled with gcc -Wall -Wextra -std=c99</p>
+    <p class="comment small mt-1">
+      // author: 314isme &lt;
+      <a href="mailto:314isme.nimbly386@passmail.net">
+        314isme.nimbly386@passmail.net
+      </a>
+      &gt;
+    </p>
+  </div>
+</section>
+
+</body>
+</html>
